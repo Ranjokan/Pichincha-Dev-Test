@@ -17,7 +17,16 @@ import { ProductInterface } from "../interfaces/product.interface";
 
 @JsonController("/products")
 export class ProductController {
-  products: ProductInterface[] = [];
+  products: ProductInterface[] = [
+    {
+      id: "uno",
+      name: "Nombre producto",
+      description: "Descripción producto",
+      logo: "assets-1.png",
+      date_release: new Date(),
+      date_revision: new Date()
+      }
+  ];
 
   @Get("")
   getAll() {
