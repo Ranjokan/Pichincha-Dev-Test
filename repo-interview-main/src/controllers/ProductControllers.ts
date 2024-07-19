@@ -25,7 +25,46 @@ export class ProductController {
       logo: "assets-1.png",
       date_release: new Date(),
       date_revision: new Date()
-      }
+    },
+    {
+      id: "dos",
+      name: "Nombre producto",
+      description: "Descripción producto",
+      logo: "assets-1.png",
+      date_release: new Date(),
+      date_revision: new Date()
+    },
+    {
+      id: "tres",
+      name: "Nombre producto",
+      description: "Descripción producto",
+      logo: "assets-1.png",
+      date_release: new Date(),
+      date_revision: new Date()
+    },
+    {
+      id: "cuatro",
+      name: "Nombre producto",
+      description: "Descripción producto",
+      logo: "assets-1.png",
+      date_release: new Date(),
+      date_revision: new Date()
+    },
+    {
+      id: "cinco",
+      name: "Nombre producto",
+      description: "Descripción producto",
+      logo: "assets-1.png",
+      date_release: new Date(),
+      date_revision: new Date()
+    }, {
+      id: "dos",
+      name: "Nombre producto",
+      description: "Descripción producto",
+      logo: "assets-1.png",
+      date_release: new Date(),
+      date_revision: new Date()
+    }
   ];
 
   @Get("")
@@ -44,21 +83,21 @@ export class ProductController {
   getOne(@Param("id") id: number | string) {
     const index = this.findIndex(id);
 
-    if(index === -1) {
+    if (index === -1) {
       throw new NotFoundError(MESSAGE_ERROR.NotFound);
     }
     return this.products.find((product) => product.id === id);
   }
 
   @Post("")
-  createItem(@Body({ validate:true }) productItem: ProductDTO) {
-    
+  createItem(@Body({ validate: true }) productItem: ProductDTO) {
+
     const index = this.findIndex(productItem.id);
 
-    if(index !== -1) {
+    if (index !== -1) {
       throw new BadRequestError(MESSAGE_ERROR.DuplicateIdentifier);
     }
-    
+
     this.products.push(productItem);
     return {
       message: "Product added successfully",
@@ -70,7 +109,7 @@ export class ProductController {
   put(@Param("id") id: number | string, @Body() productItem: ProductInterface) {
     const index = this.findIndex(id);
 
-    if(index === -1) {
+    if (index === -1) {
       throw new NotFoundError(MESSAGE_ERROR.NotFound);
     }
 
@@ -88,10 +127,10 @@ export class ProductController {
   remove(@Param("id") id: number | string) {
     const index = this.findIndex(id);
 
-    if(index === -1) {
+    if (index === -1) {
       throw new NotFoundError(MESSAGE_ERROR.NotFound);
     }
-        
+
     this.products = [...this.products.filter((product) => product.id !== id)];
     return {
       message: "Product removed successfully",

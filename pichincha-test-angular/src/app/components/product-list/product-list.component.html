@@ -1,0 +1,60 @@
+<div class="container mt-4">
+    <div class="row mb-3 justify-content-between">
+        <div class="col-12 col-md-6 col-lg-3">
+            <input class="form-control" type="text" [(ngModel)]="searchText" (ngModelChange)="filterProducts()"
+                placeholder="Search...">
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 text-end">
+            <Button class="btn btn-yellow" (click)="addProduct()">Agregar</Button>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+                <th>Logo</th>
+                <th>Nombre del producto</th>
+                <th>Descripción</th>
+                <th>Fecha de liberación</th>
+                <th>Fecha de reestructuración</th>
+                <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of productsFilter; index as i">
+                <td><img class="product-logo" src="{{product.logo}}" alt="Logo"></td>
+                <td>{{product.name}}</td>
+                <td>{{product.description}}</td>
+                <td>{{product.date_release | date:'dd/MM/yyyy'}}</td>
+                <td>{{product.date_revision | date:'dd/MM/yyyy'}}</td>
+                <td>
+                    <button class="btn" (click)="toggleDropdown(i)"><i class="bi bi-three-dots-vertical"></i>
+                        <div class="dropdown" *ngIf="i == index" [ngClass]="{ 'show': isDropdownOpen }">
+
+                            <ul>
+                                <li (click)="editProduct(product)">Editar</li>
+                                <li (click)="openModal(product)">Eliminar</li>
+                            </ul>
+                        </div>
+                    </button>
+                </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="table-footer">
+            <span class="products-count">
+                {{productsList.length}} Resultados
+            </span>
+            <select name="quantity" [(ngModel)]="productsQuantity" (change)="changeQuantity()">
+                <option *ngFor="let option of quantityOptions" [value]="option">
+                    {{option}}
+                </option>
+            </select>
+        </div>
+      </div>
+</div>
+
+<!--<div :class="[classNameA, {classNameB : condition}]"></div><app-modal *ngIf="modalActive" [name]="selectedProduct!.name" (submit)="manageClose($event)">
+
+</app-modal>-->
