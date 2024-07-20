@@ -22,7 +22,7 @@ export class ProductController {
       id: "uno",
       name: "Nombre producto",
       description: "Descripción producto",
-      logo: "assets-1.png",
+      logo: "https://www.visa.com.ec/dam/VCOM/regional/lac/SPA/Default/Pay%20With%20Visa/Tarjetas/visa-signature-400x225.jpg",
       date_release: new Date(),
       date_revision: new Date()
     },

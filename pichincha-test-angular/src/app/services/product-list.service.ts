@@ -28,7 +28,7 @@ export class ProductService {
 
   editProducts(data: any) {
     return this.http
-      .put<any>(`${this.apiUrl}/bp/products`, data)
+      .put<any>(`${this.apiUrl}/bp/products/${data.id}`, data)
       .pipe(
         catchError((error) => {
           return error;

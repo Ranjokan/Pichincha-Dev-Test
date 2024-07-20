@@ -100,9 +100,20 @@ export class NewProductComponent implements OnInit {
     }
   }
 
-  resetForm() {
+  resetAddForm(){
     this.registerForm.reset();
   }
+
+  resetEditForm() {
+    this.registerForm.reset({
+      id: this.registerForm.value.id,
+      name: '',
+      description: '',
+      logo: '',
+      date_release: '',
+      date_revision: ''
+    });
+  } 
 
   setValueEdit(state: any) {
     this.registerForm.controls['id'].setValue(state.id);

@@ -115,7 +115,8 @@
                     </div>
                 </div>
                 <div class="form-footer">
-                    <button class="btn secondary" (click)="resetForm()">Reiniciar</button>
+                    <button class="btn secondary" *ngIf="editButton" (click)="resetEditForm()">Reiniciar</button>
+                    <button class="btn secondary" *ngIf="!editButton" (click)="resetAddForm()">Reiniciar</button>
                     <button class="btn primary" *ngIf="!editButton" (click)="sendForm()" [disabled]="registerForm.invalid && isInvalidId">Enviar</button>
                     <button class="btn primary" *ngIf="editButton" (click)="editForm()" [disabled]="registerForm.invalid">Editar</button>
                 </div>
