@@ -36,12 +36,20 @@ export class ProductListComponent implements OnInit {
     this.getData();
   }
 
+  getData() {
+    this.productService.getProducts().subscribe((products: any) => {
+      this.productsList = products.data;
+      this.productsFilter = this.productsList;
+      this.changeQuantity();
+    });
+  }
+  
   changeQuantity() {
     this.productsFilter = this.productsList.slice(0, this.productsQuantity);
   }
   //Funcion para ir a la pagina de agregar producto
   addProduct() {
-    this.router.navigateByUrl('/addProduct');
+    this.router.navigateByUrl('/newProduct');
   }
   //Filtramos los productos
   filterProducts() {
@@ -81,11 +89,5 @@ export class ProductListComponent implements OnInit {
     this.modalActive = false;
   }*/
   //Funcion para obtener la data del servicio obtener productos
-  getData() {
-    this.productService.getProducts().subscribe((products: any) => {
-      this.productsList = products.data;
-      this.productsFilter = this.productsList;
-      this.changeQuantity();
-    });
-  }
+  
 }

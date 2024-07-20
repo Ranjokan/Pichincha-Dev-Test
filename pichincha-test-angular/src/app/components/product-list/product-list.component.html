@@ -9,8 +9,8 @@
         </div>
     </div>
 
-    <div class="table-responsive">
-        <table class="table table-striped">
+    <div class="table-container">
+        <table class="table-products">
           <thead>
             <tr>
                 <th>Logo</th>
@@ -18,7 +18,7 @@
                 <th>Descripción</th>
                 <th>Fecha de liberación</th>
                 <th>Fecha de reestructuración</th>
-                <th></th>
+                <th>       </th>
             </tr>
           </thead>
           <tbody>
@@ -29,12 +29,11 @@
                 <td>{{product.date_release | date:'dd/MM/yyyy'}}</td>
                 <td>{{product.date_revision | date:'dd/MM/yyyy'}}</td>
                 <td>
-                    <button class="btn" (click)="toggleDropdown(i)"><i class="bi bi-three-dots-vertical"></i>
+                    <button class="btn top-dropdown" (click)="toggleDropdown(i)"><i class="bi bi-three-dots-vertical"></i>
                         <div class="dropdown" *ngIf="i == index" [ngClass]="{ 'show': isDropdownOpen }">
 
                             <ul>
                                 <li (click)="editProduct(product)">Editar</li>
-                                <li (click)="openModal(product)">Eliminar</li>
                             </ul>
                         </div>
                     </button>
