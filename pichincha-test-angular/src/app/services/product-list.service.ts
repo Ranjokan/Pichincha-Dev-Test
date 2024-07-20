@@ -26,6 +26,16 @@ export class ProductService {
       );
   }
 
+  editProducts(data: any) {
+    return this.http
+      .put<any>(`${this.apiUrl}/bp/products`, data)
+      .pipe(
+        catchError((error) => {
+          return error;
+        })
+      );
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.status === 400) {
       return throwError(() => new Error('Duplicate identifier found in the database'));
@@ -34,13 +44,9 @@ export class ProductService {
     }
   }
 
-  editProducts(data: any) {
+  validateId(id: string): Observable<any>{
     return this.http
-      .put<any>(`${this.apiUrl}/bp/products`, data, {
-        headers: {
-          authorId: '2',
-        },
-      })
+      .get<any>(`${this.apiUrl}/bp/products/verification/${id}`)
       .pipe(
         catchError((error) => {
           return error;

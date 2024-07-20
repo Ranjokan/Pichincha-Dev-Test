@@ -13,10 +13,10 @@
                     <div class="col-lg-form col">
                         <label for="">ID</label>
                         <input type="text" class="input inputDisabled" formControlName="id" name="id"
-                            *ngIf="editButton == true">
-                        <input *ngIf="editButton == false"
+                            *ngIf="editButton" readonly>
+                        <input *ngIf="!editButton"
                             [ngClass]="{'error': registerForm.controls['id'].invalid && (registerForm.controls['id'].dirty || registerForm.controls['id'].touched)}"
-                            type="text" class="input" formControlName="id" name="id">
+                            type="text" class="input" formControlName="id" name="id" (ngModelChange)="validateId()">
                         <div *ngIf="registerForm.controls['id'].invalid && (registerForm.controls['id'].dirty || registerForm.controls['id'].touched)"
                             class="alert-error">
                             <div class="message-error" *ngIf="registerForm.controls['id'].errors?.['required']">
@@ -28,6 +28,14 @@
                             <div class="message-error" *ngIf="registerForm.controls['id'].errors?.['maxlength']">
                                 El Id debe tener máximo 10 caracateres!
                             </div>
+                            <div class="message-error" *ngIf="registerForm.controls['id'].errors?.['maxlength']">
+                                El Id debe tener máximo 10 caracateres!
+                            </div>
+                        </div>
+                        <div *ngIf="isInvalidId"  class="alert-error">
+                            <div class="message-error" >
+                                El Id ingresado ya existe!
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-form col">
@@ -36,7 +44,7 @@
                             [ngClass]="{'error': registerForm.controls['name'].invalid && (registerForm.controls['name'].dirty || registerForm.controls['name'].touched)}"
                             type="text" class="input" formControlName="name">
                         <div *ngIf="registerForm.controls['name'].invalid && (registerForm.controls['name'].dirty || registerForm.controls['name'].touched)"
-                            class="alert">
+                            class="alert-error">
                             <div class="message-error" *ngIf="registerForm.controls['name'].errors?.['required']">
                                 El Nombre es requerido!
                             </div>
@@ -108,8 +116,8 @@
                 </div>
                 <div class="form-footer">
                     <button class="btn secondary" (click)="resetForm()">Reiniciar</button>
-                    <button class="btn primary" *ngIf="editButton == false" (click)="sendForm()">Enviar</button>
-                    <button class="btn primary" *ngIf="editButton == true" (click)="editForm()">Editar</button>
+                    <button class="btn primary" *ngIf="!editButton" (click)="sendForm()" [disabled]="registerForm.invalid && isInvalidId">Enviar</button>
+                    <button class="btn primary" *ngIf="editButton" (click)="editForm()" [disabled]="registerForm.invalid">Editar</button>
                 </div>
             </form>
         </div>

@@ -25,6 +25,9 @@ export class NewProductComponent implements OnInit {
   state: any;
   editButton: boolean = false;
   errorMessage: string = '';
+  idValidationError: string = '';
+  isInvalidId: boolean= false;
+
   constructor(
     fb: FormBuilder,
     private readonly productService: ProductService,
@@ -54,8 +57,8 @@ export class NewProductComponent implements OnInit {
       date_release: new FormControl('', Validators.required),
       date_revision: new FormControl(this.date_end, Validators.required),
     });
-    if (this.state) {
-      this.editButton = false;
+    if (this.state.id) {
+      this.editButton = true;
       this.setValueEdit(this.state);
     }
     this.minDate = this.datePipe.transform(this.minDate, 'yyyy-MM-dd');
@@ -121,7 +124,6 @@ export class NewProductComponent implements OnInit {
     this.productService.editProducts(this.registerForm.value).subscribe();
     this.router.navigateByUrl('/');
   }
-  //Agregar dias a la fecha
   public addDays(date: any, days: any) {
     return new Date(date.valueOf() + days * 24 * 60 * 60 * 1000);
   }
@@ -130,6 +132,12 @@ export class NewProductComponent implements OnInit {
     this.router.navigateByUrl('/');
   }
 
-  
+  validateId(){
+    this.productService.validateId(String(this.registerForm.value.id)).subscribe(
+      (validationResponse: any) => {
+        this.isInvalidId = validationResponse 
+      }
+    )
+  }
   
 }
