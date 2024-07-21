@@ -1,0 +1,110 @@
+.table-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  width: -webkit-fill-available;
+  padding: 20px;
+  justify-content: center;
+  background: #ffffff;
+  overflow-x: auto;
+}
+
+
+.table-products {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  background-color: #f5f5f5;
+  margin-bottom: 50px;
+}
+
+.table-container .table-products {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-container .table-products thead {
+  height: 50px;
+  background: #f9fafc;
+  color: #48484b;
+}
+
+.table-container .table-products tbody {
+  background-color: #fff;
+}
+
+.table-container .table-products tbody tr {
+  height: 50px;
+  border-bottom: 1px solid #cad0d6;
+  border-top: 1px solid #cad0d6;
+}
+
+.table-container .table-products th,
+.table-container .table-products td {
+  padding: 10px;
+  text-align: center;
+}
+
+.table-container .table-products .top-dropdown {
+  border: none;
+  background: none;
+  position: relative;
+}
+
+.table-container .table-products .top-dropdown .dropdown {
+  position: absolute;
+  top: 100%;
+  left: -25px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: none;
+  transition: all 0.3s ease-in-out;
+  z-index: 100;
+}
+.table-container .table-products .top-dropdown .dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.table-container .table-products .top-dropdown .dropdown ul li {
+  padding: 10px;
+}
+.table-container .table-products .top-dropdown .dropdown ul li:hover {
+  background-color: #f0f0f0;
+}
+.table-container .table-products .top-dropdown .show {
+  display: block;
+}
+.table-container .table-products .table-options {
+  width: 20px;
+  height: 20px;
+}
+
+.table-container .table-footer {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+}
+.table-container .table-footer .products-count {
+  color: #48484b;
+  font-weight: bold;
+}
+
+.product-logo {
+  width: 50px;
+  height: 50px;
+}
+
+.btn-yellow {
+  color: #0f265c;
+  background: #ffdd00;
+  font-weight: 600;
+}
+
+@media (min-width: 768px) {
+  .table-products {
+    width: 75%;
+ }
+}

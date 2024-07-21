@@ -1,0 +1,128 @@
+<div class="container">
+    <div class="card">
+        <div class="back-button">
+            <button (click)="backHome()" class="btn primary"><i class="bi bi-caret-left-fill"></i></button>
+        </div>
+        <div class="form-title">
+            Formulario de Registro
+            <hr>
+        </div>
+        <div class="form-container">
+            <form action="" [formGroup]="registerForm">
+                <div class="form-row">
+                    <div class="col-lg-form col">
+                        <label for="">ID</label>
+                        <input type="text" class="input inputDisabled" formControlName="id" name="id" *ngIf="editButton"
+                            readonly>
+                        <input *ngIf="!editButton"
+                            [ngClass]="{'error': registerForm.controls['id'].invalid && (registerForm.controls['id'].dirty || registerForm.controls['id'].touched)}"
+                            type="text" class="input" formControlName="id" name="id" (ngModelChange)="validateId()">
+                        <div *ngIf="registerForm.controls['id'].invalid && (registerForm.controls['id'].dirty || registerForm.controls['id'].touched)"
+                            class="alert-error">
+                            <div class="message-error" *ngIf="registerForm.controls['id'].errors?.['required']">
+                                El Id es requerido!
+                            </div>
+                            <div class="message-error" *ngIf="registerForm.controls['id'].errors?.['minlength']">
+                                El Id debe tener mínimo 3 caracateres!
+                            </div>
+                            <div class="message-error" *ngIf="registerForm.controls['id'].errors?.['maxlength']">
+                                El Id debe tener máximo 10 caracateres!
+                            </div>
+                            <div class="message-error" *ngIf="registerForm.controls['id'].errors?.['maxlength']">
+                                El Id debe tener máximo 10 caracateres!
+                            </div>
+                        </div>
+                        <div *ngIf="isInvalidId" class="alert-error">
+                            <div class="message-error">
+                                El Id ingresado ya existe!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-form col">
+                        <label for="">Nombre</label>
+                        <input
+                            [ngClass]="{'error': registerForm.controls['name'].invalid && (registerForm.controls['name'].dirty || registerForm.controls['name'].touched)}"
+                            type="text" class="input" formControlName="name">
+                        <div *ngIf="registerForm.controls['name'].invalid && (registerForm.controls['name'].dirty || registerForm.controls['name'].touched)"
+                            class="alert-error">
+                            <div class="message-error" *ngIf="registerForm.controls['name'].errors?.['required']">
+                                El Nombre es requerido!
+                            </div>
+                            <div class="message-error" *ngIf="registerForm.controls['name'].errors?.['minlength']">
+                                El Nombre debe tener mínimo 5 caracateres!
+                            </div>
+                            <div class="message-error" *ngIf="registerForm.controls['name'].errors?.['maxlength']">
+                                El Nombre debe tener máximo 100 caracateres!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-lg-form col">
+                        <label for="">Descripción</label>
+                        <input
+                            [ngClass]="{'error': registerForm.controls['description'].invalid && (registerForm.controls['description'].dirty || registerForm.controls['description'].touched)}"
+                            type="text" class="input" formControlName="description">
+                        <div *ngIf="registerForm.controls['description'].invalid && (registerForm.controls['description'].dirty || registerForm.controls['description'].touched)"
+                            class="alert-error">
+                            <div class="message-error"
+                                *ngIf="registerForm.controls['description'].errors?.['required']">
+                                La Descripción es requerida!
+                            </div>
+                            <div class="message-error"
+                                *ngIf="registerForm.controls['description'].errors?.['minlength']">
+                                El Descripción debe tener mínimo 10 caracateres!
+                            </div>
+                            <div class="message-error"
+                                *ngIf="registerForm.controls['description'].errors?.['maxlength']">
+                                El Descripción debe tener máximo 200 caracateres!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-form col">
+                        <label for="">Logo</label>
+                        <input
+                            [ngClass]="{'error': registerForm.controls['logo'].invalid && (registerForm.controls['logo'].dirty || registerForm.controls['logo'].touched)}"
+                            type="text" class="input" formControlName="logo">
+                        <div *ngIf="registerForm.controls['logo'].invalid && (registerForm.controls['logo'].dirty || registerForm.controls['logo'].touched)"
+                            class="alert-error">
+                            <div class="message-error" *ngIf="registerForm.controls['logo'].errors?.['required']">
+                                El Logo es requerido!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-lg-form col">
+                        <label for="">Fecha Liberación</label>
+                        <input
+                            [ngClass]="{'error': registerForm.controls['date_release'].invalid && (registerForm.controls['date_release'].dirty || registerForm.controls['date_release'].touched)}"
+                            type="date" class="input" formControlName="date_release" [(min)]="minDate"
+                            (change)="onChange($event)">
+                        <div *ngIf="registerForm.controls['date_release'].invalid && (registerForm.controls['date_release'].dirty || registerForm.controls['date_release'].touched)"
+                            class="alert-error">
+                            <div class="message-error"
+                                *ngIf="registerForm.controls['date_release'].errors?.['required']">
+                                La Fecha de Liberación es requerida!
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-form col">
+                        <label for="">Fecha Revisión</label>
+                        <input type="text" class="input inputDisabled" formControlName="date_revision" readonly
+                            [value]="date_end">
+                    </div>
+                </div>
+                <div class="form-footer">
+                    <button class="btn secondary" *ngIf="editButton" (click)="resetEditForm()">Reiniciar</button>
+                    <button class="btn secondary" *ngIf="!editButton" (click)="resetAddForm()">Reiniciar</button>
+                    <button class="btn primary" *ngIf="!editButton" (click)="sendForm()"
+                        [disabled]="registerForm.invalid && isInvalidId">Enviar</button>
+                    <button class="btn primary" *ngIf="editButton" (click)="editForm()"
+                        [disabled]="registerForm.invalid">Editar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'Prelo Book';
+    src: url('/assets/fonts/Prelo-Book.woff2') format('woff2'),
+         url('/assets/fonts/Prelo-Book.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  body {
+    font-family: 'Prelo Book', sans-serif;
+    background-color: #F4F6F9 !important;
+  }
+  
