@@ -49,7 +49,7 @@ export class ProductListComponent implements OnInit {
   }
   
   addProduct() {
-    this.router.navigateByUrl('/newProduct');
+    this.router.navigate(['/newProduct']);
   }
 
   filterProducts() {
@@ -66,7 +66,7 @@ export class ProductListComponent implements OnInit {
 
   editProduct(product: ProductInterface) {
     const queryParams:  ProductInterface  = product;
-    this.router.navigate(['newProduct'], { queryParams });
+    this.router.navigate(['/newProduct'], { queryParams });
   }
 
   openModal(product: ProductInterface) {

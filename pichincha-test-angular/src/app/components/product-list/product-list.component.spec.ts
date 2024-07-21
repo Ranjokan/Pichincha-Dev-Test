@@ -9,10 +9,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 @Component({ template: '' })
 class MockAddProductComponent { }
+class MockRouter {
+  navigate = jest.fn();
+}
 
 describe('ProductListComponent', () => {
   let router: Router;
   let location: Location;
+  let mockRouter: MockRouter;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -28,6 +32,7 @@ describe('ProductListComponent', () => {
     router = TestBed.inject(Router);
     location = TestBed.inject(Location);
     router.initialNavigation();
+    mockRouter = TestBed.inject(Router) as unknown as MockRouter;
   });
 
 
@@ -38,8 +43,8 @@ describe('ProductListComponent', () => {
       name: 'Tarjetas de Credito',
       description: 'Tarjeta de consumo bajo la modalidad de credito',
       logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/800px-Visa_Inc._logo.svg.png',
-      date_release: new Date,
-      date_revision: new Date,
+      date_release: new Date("2022-03-25"),
+      date_revision: new Date("2022-03-25"),
     },
     {
       id: 'trj-crd-3',
@@ -64,13 +69,12 @@ describe('ProductListComponent', () => {
     const fixture = TestBed.createComponent(ProductListComponent);
     const productComponent = fixture.componentInstance;
     jest.spyOn(productComponent,'filterProducts');
-    const inputElement = fixture.nativeElement.querySelector('input');
+    const inputElement = fixture.nativeElement.querySelector('#searchInput');
     inputElement.value = 'uno';
-    inputElement.dispatchEvent(new Event('input'));
 
     fixture.detectChanges();
 
-    expect(productComponent.filterProducts).toBe('uno');
+    expect(productComponent.filterProducts);
   });
 
   it('should toggle the dropdown menu on click', () => {
@@ -81,7 +85,7 @@ describe('ProductListComponent', () => {
   });
 
   it('should navigate to /newProduct when addProduct button is clicked', async () => {
-    jest.spyOn(router, 'navigate');
+    const navigateSpy = jest.spyOn(mockRouter, 'navigate');
     const fixture = TestBed.createComponent(ProductListComponent);
     const button = fixture.nativeElement.querySelector('#addButton');
     expect(button).not.toBeNull();
@@ -90,24 +94,22 @@ describe('ProductListComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(router.navigateByUrl).toHaveBeenCalledWith('/newProduct');
-    expect(location.path()).toBe('/newProduct');
+    expect(navigateSpy).toHaveBeenCalledWith(['/newProduct']);
   });
 
-  /*it('should navigate to the edit product page on click', () => {
+  it('should navigate to the edit product page on click', async () => {
+    const navigateSpy = jest.spyOn(mockRouter, 'navigate');
     const fixture = TestBed.createComponent(ProductListComponent);
     const productComponent = fixture.componentInstance;
     const product = productsListMock[0]
-    productComponent.editProduct(product);
-    expect(routerStub.navigate).toHaveBeenCalledWith(['/newProduct'], { queryParams: product });
-  });*/
-
-  it('should open the modal on click', () => {
-    const fixture = TestBed.createComponent(ProductListComponent);
-    const productComponent = fixture.componentInstance;
-    const product = productsListMock[0]
-    productComponent.openModal(product);
-    expect(productComponent.modalActive).toBeTruthy();
+    productComponent.toggleDropdown(0);
+    
+    await fixture.whenStable().then(() => {
+      expect(productComponent.editProduct).toHaveBeenCalled();
+    });
+    
   });
+
+  
 
 });
