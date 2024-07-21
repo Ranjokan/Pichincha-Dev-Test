@@ -12,8 +12,8 @@
                 <div class="form-row">
                     <div class="col-lg-form col">
                         <label for="">ID</label>
-                        <input type="text" class="input inputDisabled" formControlName="id" name="id"
-                            *ngIf="editButton" readonly>
+                        <input type="text" class="input inputDisabled" formControlName="id" name="id" *ngIf="editButton"
+                            readonly>
                         <input *ngIf="!editButton"
                             [ngClass]="{'error': registerForm.controls['id'].invalid && (registerForm.controls['id'].dirty || registerForm.controls['id'].touched)}"
                             type="text" class="input" formControlName="id" name="id" (ngModelChange)="validateId()">
@@ -32,8 +32,8 @@
                                 El Id debe tener máximo 10 caracateres!
                             </div>
                         </div>
-                        <div *ngIf="isInvalidId"  class="alert-error">
-                            <div class="message-error" >
+                        <div *ngIf="isInvalidId" class="alert-error">
+                            <div class="message-error">
                                 El Id ingresado ya existe!
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                             [ngClass]="{'error': registerForm.controls['description'].invalid && (registerForm.controls['description'].dirty || registerForm.controls['description'].touched)}"
                             type="text" class="input" formControlName="description">
                         <div *ngIf="registerForm.controls['description'].invalid && (registerForm.controls['description'].dirty || registerForm.controls['description'].touched)"
-                            class="alert">
+                            class="alert-error">
                             <div class="message-error"
                                 *ngIf="registerForm.controls['description'].errors?.['required']">
                                 La Descripción es requerida!
@@ -85,7 +85,7 @@
                             [ngClass]="{'error': registerForm.controls['logo'].invalid && (registerForm.controls['logo'].dirty || registerForm.controls['logo'].touched)}"
                             type="text" class="input" formControlName="logo">
                         <div *ngIf="registerForm.controls['logo'].invalid && (registerForm.controls['logo'].dirty || registerForm.controls['logo'].touched)"
-                            class="alert">
+                            class="alert-error">
                             <div class="message-error" *ngIf="registerForm.controls['logo'].errors?.['required']">
                                 El Logo es requerido!
                             </div>
@@ -100,10 +100,10 @@
                             type="date" class="input" formControlName="date_release" [(min)]="minDate"
                             (change)="onChange($event)">
                         <div *ngIf="registerForm.controls['date_release'].invalid && (registerForm.controls['date_release'].dirty || registerForm.controls['date_release'].touched)"
-                            class="alert">
+                            class="alert-error">
                             <div class="message-error"
                                 *ngIf="registerForm.controls['date_release'].errors?.['required']">
-                                La Fecha de Lanzamiento es requerida!
+                                La Fecha de Liberación es requerida!
                             </div>
                         </div>
                     </div>
@@ -117,8 +117,10 @@
                 <div class="form-footer">
                     <button class="btn secondary" *ngIf="editButton" (click)="resetEditForm()">Reiniciar</button>
                     <button class="btn secondary" *ngIf="!editButton" (click)="resetAddForm()">Reiniciar</button>
-                    <button class="btn primary" *ngIf="!editButton" (click)="sendForm()" [disabled]="registerForm.invalid && isInvalidId">Enviar</button>
-                    <button class="btn primary" *ngIf="editButton" (click)="editForm()" [disabled]="registerForm.invalid">Editar</button>
+                    <button class="btn primary" *ngIf="!editButton" (click)="sendForm()"
+                        [disabled]="registerForm.invalid && isInvalidId">Enviar</button>
+                    <button class="btn primary" *ngIf="editButton" (click)="editForm()"
+                        [disabled]="registerForm.invalid">Editar</button>
                 </div>
             </form>
         </div>

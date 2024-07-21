@@ -38,10 +38,10 @@ describe('ProductListComponent', () => {
     }
   ];
 
-  beforeEach(() => {
+  beforeEach(async () => {
     productServiceStub = {
-      getProducts: jest.fn(() => Observable<any>),
-      deleteProducts: jest.fn(() => Observable<any>),
+      getData: jest.fn(() => Observable<any>),
+      addProduct: jest.fn(() => Observable<any>),
     };
 
     routerStub = {
@@ -49,15 +49,16 @@ describe('ProductListComponent', () => {
     };
     
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, FormsModule,HttpClientModule ],
+      imports: [HttpClientTestingModule, FormsModule, HttpClientModule, ProductListComponent],
       declarations: [ProductListComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: ProductService, useValue: productServiceStub },
         { provide: Router, useValue: routerStub },
-        { provide: HttpClient, useValue: { 
-          post: jest.fn(),
-          put: jest.fn(),
+        {
+          provide: HttpClient, useValue: {
+            post: jest.fn(),
+            put: jest.fn(),
           }
         },
       ],
@@ -70,7 +71,6 @@ describe('ProductListComponent', () => {
   });
 
 
-  // Esperar que el componente este creado
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -88,13 +88,13 @@ describe('ProductListComponent', () => {
 
   it('should navigate to the add product page on click', () => {
     component.addProduct();
-    expect(routerStub.navigate).toHaveBeenCalledWith(['/addProduct']);
+    expect(routerStub.navigate).toHaveBeenCalledWith(['/newProduct']);
   });
 
   it('should navigate to the edit product page on click', () => {
     const product = productsListMock[0]
     component.editProduct(product);
-    expect(routerStub.navigate).toHaveBeenCalledWith(['/addProduct'], { queryParams: product });
+    expect(routerStub.navigate).toHaveBeenCalledWith(['/newProduct'], { queryParams: product });
   });
 
   it('should open the modal on click', () => {
@@ -103,14 +103,4 @@ describe('ProductListComponent', () => {
     expect(component.modalActive).toBeTruthy();
   });
 
-  /*it('should call the product service to delete the product on click', () => {
-    const id = productsListMock[0].id;
-    component.deleteProduct(id);
-    expect(productServiceStub.deleteProducts).toHaveBeenCalledWith(id);
-  });
-
-  it('should delete the product on click', () => {
-    component.manageClose(true);
-    expect(productServiceStub.deleteProducts).toHaveBeenCalledWith(productsListMock[0].id);
-  });*/
 });
