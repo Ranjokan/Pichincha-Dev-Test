@@ -5,7 +5,7 @@
                 placeholder="Search...">
         </div>
         <div class="col-12 col-md-6 col-lg-3 text-end">
-            <Button class="btn btn-yellow" (click)="addProduct()">Agregar</Button>
+            <Button class="btn btn-yellow" (click)="addProduct()" id="addButton">Agregar</Button>
         </div>
     </div>
 
@@ -53,7 +53,3 @@
         </div>
       </div>
 </div>
-
-<!--<div :class="[classNameA, {classNameB : condition}]"></div><app-modal *ngIf="modalActive" [name]="selectedProduct!.name" (submit)="manageClose($event)">
-
-</app-modal>-->

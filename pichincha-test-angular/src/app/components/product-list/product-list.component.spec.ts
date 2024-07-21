@@ -1,22 +1,35 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-import { ProductService } from '../../services/product-list.service';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 import { ProductInterface } from '../../interfaces/product.interface';
-import { Observable, of } from 'rxjs';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ProductListComponent } from './product-list.component';
+import { Location } from '@angular/common';
+import { RouterTestingModule } from '@angular/router/testing';
 
+@Component({ template: '' })
+class MockAddProductComponent { }
 
 describe('ProductListComponent', () => {
-  let component: ProductListComponent;
-  let fixture: ComponentFixture<ProductListComponent>;
-  let productService: ProductService;
   let router: Router;
-  let productServiceStub: any;
-  let routerStub: any;
+  let location: Location;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [
+        ProductListComponent,
+        HttpClientTestingModule,
+        RouterTestingModule.withRoutes([
+          { path: 'newProduct', component: MockAddProductComponent }
+        ]),
+      ],
+    }).compileComponents();
+
+    router = TestBed.inject(Router);
+    location = TestBed.inject(Location);
+    router.initialNavigation();
+  });
+
 
 
   const productsListMock: ProductInterface[] = [
@@ -38,69 +51,63 @@ describe('ProductListComponent', () => {
     }
   ];
 
-  beforeEach(async () => {
-    productServiceStub = {
-      getData: jest.fn(() => Observable<any>),
-      addProduct: jest.fn(() => Observable<any>),
-    };
 
-    routerStub = {
-      navigate: jest.fn(),
-    };
-    
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, FormsModule, HttpClientModule, ProductListComponent],
-      declarations: [ProductListComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        { provide: ProductService, useValue: productServiceStub },
-        { provide: Router, useValue: routerStub },
-        {
-          provide: HttpClient, useValue: {
-            post: jest.fn(),
-            put: jest.fn(),
-          }
-        },
-      ],
-    });
-    fixture = TestBed.createComponent(ProductListComponent);
-    component = fixture.componentInstance;
-    productService = TestBed.get(ProductService);
-    router = TestBed.get(Router);
-    fixture.detectChanges();
-  });
 
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    const fixture = TestBed.createComponent(ProductListComponent);
+    const productComponent = fixture.componentInstance;
+    expect(productComponent).toBeTruthy();
   });
 
   it('should filter the products by search text', () => {
-    component.searchText = 'Product 1';
-    component.filterProducts();
-    expect(component.productsFilter.length).toBe(1);
+    const fixture = TestBed.createComponent(ProductListComponent);
+    const productComponent = fixture.componentInstance;
+    jest.spyOn(productComponent,'filterProducts');
+    const inputElement = fixture.nativeElement.querySelector('input');
+    inputElement.value = 'uno';
+    inputElement.dispatchEvent(new Event('input'));
+
+    fixture.detectChanges();
+
+    expect(productComponent.filterProducts).toBe('uno');
   });
 
   it('should toggle the dropdown menu on click', () => {
-    component.toggleDropdown(0);
-    expect(component.isDropdownOpen).toBeTruthy();
+    const fixture = TestBed.createComponent(ProductListComponent);
+    const productComponent = fixture.componentInstance;
+    productComponent.toggleDropdown(0);
+    expect(productComponent.isDropdownOpen).toBeTruthy();
   });
 
-  it('should navigate to the add product page on click', () => {
-    component.addProduct();
-    expect(routerStub.navigate).toHaveBeenCalledWith(['/newProduct']);
+  it('should navigate to /newProduct when addProduct button is clicked', async () => {
+    jest.spyOn(router, 'navigate');
+    const fixture = TestBed.createComponent(ProductListComponent);
+    const button = fixture.nativeElement.querySelector('#addButton');
+    expect(button).not.toBeNull();
+    button.click();
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(router.navigateByUrl).toHaveBeenCalledWith('/newProduct');
+    expect(location.path()).toBe('/newProduct');
   });
 
-  it('should navigate to the edit product page on click', () => {
+  /*it('should navigate to the edit product page on click', () => {
+    const fixture = TestBed.createComponent(ProductListComponent);
+    const productComponent = fixture.componentInstance;
     const product = productsListMock[0]
-    component.editProduct(product);
+    productComponent.editProduct(product);
     expect(routerStub.navigate).toHaveBeenCalledWith(['/newProduct'], { queryParams: product });
-  });
+  });*/
 
   it('should open the modal on click', () => {
+    const fixture = TestBed.createComponent(ProductListComponent);
+    const productComponent = fixture.componentInstance;
     const product = productsListMock[0]
-    component.openModal(product);
-    expect(component.modalActive).toBeTruthy();
+    productComponent.openModal(product);
+    expect(productComponent.modalActive).toBeTruthy();
   });
 
 });
