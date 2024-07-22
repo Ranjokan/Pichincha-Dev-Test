@@ -58,7 +58,7 @@ export class ProductController {
       date_release: new Date(),
       date_revision: new Date()
     }, {
-      id: "dos",
+      id: "dose",
       name: "Nombre producto",
       description: "Descripción producto",
       logo: "assets-1.png",

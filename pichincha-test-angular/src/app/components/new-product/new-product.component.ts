@@ -61,9 +61,9 @@ export class NewProductComponent implements OnInit {
       this.editButton = true;
       this.setValueEdit(this.state);
     }
-    this.minDate = this.datePipe.transform(this.minDate, 'yyyy-MM-dd');
+    this.minDate = this.datePipe.transform(this.minDate, 'YYYY-MM-dd');
   }
-  //Funcion para setear el segundo input de fecha con respecto al primero, sumando un ano
+
   onChange(value: any) {
     this.date_start = new Date(value.target.value);
     this.date_start = this.addDays(this.date_start, 1);
@@ -72,10 +72,10 @@ export class NewProductComponent implements OnInit {
       this.date_start.getFullYear() + 1
     );
 
-    this.date_end = this.datePipe.transform(date_end, 'dd/MM/yyyy');
+    this.date_end = this.datePipe.transform(date_end, 'dd/MM/YYYY');
     this.registerForm.value.date_revision = this.datePipe.transform(
       date_end,
-      'yyyy-MM-dd'
+      'YYYY-MM-dd'
     );
   }
 
@@ -121,10 +121,10 @@ export class NewProductComponent implements OnInit {
     this.registerForm.controls['description'].setValue(state.description);
     this.registerForm.controls['logo'].setValue(state.logo);
     this.registerForm.controls['date_release'].setValue(
-      this.datePipe.transform(state.date_release, 'yyyy-MM-dd')
+      this.datePipe.transform(state.date_release, 'YYYY-MM-dd')
     );
     this.registerForm.controls['date_revision'].setValue(
-      this.datePipe.transform(state.date_revision, 'dd/MM/yyyy')
+      this.datePipe.transform(state.date_revision, 'dd/MM/YYYY')
     );
   }
 
